@@ -1,0 +1,86 @@
+.display-load {
+    position: fixed;
+    background: rgba(0,0,0,.4);
+    width: 100%;
+    min-height: 100vh;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .5s ease;
+
+    .cajita {
+        position: relative;
+
+        span {
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            background: white;
+            border-radius: 50%;
+            left: -2rem;
+        }
+
+        .s1 {
+            animation: s1 2s linear infinite;
+        }
+        
+        .s2 {
+            animation: s2 2s linear infinite;
+        }
+        
+        .s3 {
+            animation: s3 2s linear infinite;
+        }
+    }
+
+    &.oculto {
+        visibility: hidden;
+        opacity: 0;
+    }    
+}
+
+@keyframes s1 {
+    0% {
+        transform: scale(1);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes s2 {
+    0% {
+        transform: scale(1);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(2.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes s3 {
+    0% {
+        transform: scale(1);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(3);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}

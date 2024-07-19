@@ -1,0 +1,115 @@
+body{
+    .contenedor{
+        background-image: url('https://img.freepik.com/foto-gratis/grupo-hombres-negocios-diversos_53876-20967.jpg?t=st=1720329444~exp=1720333044~hmac=e00ece68d6d1e7d2668009aa473410d19b50bb25f54b5393a3d564c934855317&w=900');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &::after{
+            content: '';
+            position: absolute;
+            width: 100%;
+            min-height: 100vh;
+            /* background: rgba(0,0,0,.1); */
+            backdrop-filter: blur(.3rem);
+        }
+
+        .logo{
+            position: absolute;
+            top: 0;
+            left: 1rem;
+            width: 15rem;
+            z-index: 1;
+        }
+
+        .formulario-login{
+            z-index: 1;
+            border: .1rem solid #333;
+            border-radius: .5rem;
+            padding: 1rem;
+            background: rgba(255,255,255,.7);
+            width: 35%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5rem;
+            font-family: "Poppins", sans-serif;
+            font-weight: 400;
+            box-shadow: 0 0 2rem;
+            transition: .3s ease-out;
+            h2{
+                font-size: 3rem;
+                letter-spacing: .1rem;
+            }
+            .input{
+                display: flex;
+                flex-direction: column;
+                font-size: 1.8rem;
+                gap: .4rem;
+                /* background-color: red; */
+                width: 80%;
+                .encabezado-input{
+                    display: flex;
+                    gap: 1rem;
+                    justify-content: space-between;
+                    .texto-error{
+                        color: red;
+                        font-weight: bold;
+                    }
+                }
+                input{
+                    font-size: 2rem;
+                    padding: 1rem;
+                    border: .1rem solid;
+                    border-radius: .5rem;
+                    outline: none;
+                    transition: .3s ease;
+                    &:focus{
+                        box-shadow: 0 0 1rem blue;
+                    }
+                    &.error{
+                        box-shadow: 0 0 1rem red;
+                    }
+                }
+            }
+            .btn-login{
+                color: white;
+                background: #333;
+                &:hover{
+                    background: unset;
+                    color: #333;
+                }
+            }
+        }
+    }
+
+    @media (width <= 1000px) {
+        .contenedor{
+            .formulario-login{
+                width: 60%;
+
+                .input{
+                    width: 90%;
+                }
+            }
+        }
+    }
+
+    @media (width <= 600px) {
+        .contenedor{
+            .formulario-login{
+                width: 90%;
+
+                .input{
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
