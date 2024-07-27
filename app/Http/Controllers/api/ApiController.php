@@ -108,14 +108,14 @@ class ApiController extends Controller
         }
     }
 
-    public function insert_contratistas(Request $request){
+    public function insert_contratistas(Request $request, $user){
         $canton = Canton::find($request['id_canton'])->load('provincias');
         $provincia = $canton->provincias->id;
         
         $dato = Contratista::create([
             'nombre_empresa' => $request['nombre_empresa'],
             'id_tipo_cedula' => $request['id_tipo_cedula'],
-            'id_user' => auth()->user()->id,
+            'id_user' => $user,
             'telefono_empresa' => $request['telefono_empresa'],
             'cedula_empresa' => $request['cedula_empresa'],
             'direccion_empresa' => $request['direccion_empresa'],
@@ -262,6 +262,11 @@ class ApiController extends Controller
     }
 
     public function insert_tipos_documentos(Request $request){
+        if ($request->file('attach')) {
+            // $datos['archivo'] = $request->file('archivo')->store('archivos','public');
+            $datos['attach'] = $request->file('attach')->storeAs('archivos', $request->file('attach')->getClientOriginalName(), 'public');
+        }
+        
         $dato = Tipo_documento::create($request->all());
 
         if (is_null($dato)) {

@@ -30,7 +30,7 @@ Route::get('/provincias', [ApiController::class, 'all_provincia']);
 Route::get('/contratistas', [ApiController::class, 'all_contratistas']);
 Route::get('/contratistas_x_id/{id}', [ApiController::class, 'get_contratistas_id']);
 Route::get('/contratistas_x_id_x_campo/{id}/{campo}', [ApiController::class, 'getContratistasNameById']);
-Route::post('/contratistas', [ApiController::class, 'insert_contratistas']);
+Route::post('/contratistas/{user}', [ApiController::class, 'insert_contratistas']);
 Route::patch('/contratistas/update/{id}', [ApiController::class, 'update_contratistas']);
 Route::patch('/contratistas/update/activo/{id}', [ApiController::class, 'update_contratistas_activo']);
 Route::delete('/contratistas/delete/{id}', [ApiController::class, 'delete_contratistas']);

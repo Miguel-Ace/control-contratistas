@@ -5,10 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Control-Contratistas</title>
-    @vite(['resources/css/display_load.css','resources/css/general.css','resources/css/plantilla_app.css','resources/js/plantilla_app.js','resources/js/grid.js'])
+    @vite(['resources/css/display_load.css','resources/css/general.css','resources/css/plantilla_app.css','resources/js/plantilla_app.js'])
     <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
 </head>
 <body>
+    @if(session('mensaje'))
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "{{ session('mensaje') }}",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            });
+        </script>
+    @endif
+
     <div class="display-load">
         <div class="cajita">
             <span class="s1"></span>
@@ -63,7 +77,7 @@
                     <div class="detalle-setting">
                         @role('admin')
                         <a href="{{route('user')}}">Usuarios</a>
-                        <a href="#">Roles y Permisos</a>
+                        {{-- <a href="#">Roles y Permisos</a> --}}
                         @endrole
                         <a href="{{route('logout')}}">Cerrar sesión</a>
                     </div>
@@ -71,45 +85,11 @@
             </div>
 
             <div class="informacion">
-                <div class="encabezado-tabla">
-                    <p class="titulo">---</p>
-                    @role('admin')
-                    <button class="btn-cambio-vista view-form btn">{{-- <i class="fa-solid fa-plus"></i> Nuevo regístro --}}</button>
-                        <script>
-                            setTimeout(() => {
-                            if (document.querySelector('.gridjs-tr')) {
-                                    `<i class="fa-solid fa-plus"></i> Nuevo regístro`
-                                }
-                            }, 1000);
-                        </script>
-                    @endrole
-                    <button class="btn-cambio-vista view-list btn desactivar"><i class="fa-solid fa-eye"></i> Ver Lista</button>
-                </div>
-
-                <div class="form-crear desactivar">
-                    <form>
-                        <div class="contenedor-inputs"></div>
-
-                        <button class="btn btn-guardar"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
-                        <button class="btn btn-editar desactivar"><i class="fa-solid fa-floppy-disk"></i> Actualizar</button>
-                    </form>
-                </div>
-
-                <div class="tabla">
-                    <div id="wrapper"></div>
-                </div>
-
-                <div class="detalle-registro desactivar">
-                    <div class="contenedor-detalle-registro"></div>
-                </div>
+                @yield('informacion')
             </div>
         </div>
     </div>
-    {{-- {{$user->hasRole('admin') ? 'si' : 'no'}} --}}
-    <script>
-        sessionStorage.setItem('user',{{auth()->user()->id}})
-        sessionStorage.setItem('rol',{{$user->hasRole('admin') ? 1 : 2}})
-    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
     <script src="https://kit.fontawesome.com/cd197f289d.js" crossorigin="anonymous"></script>
