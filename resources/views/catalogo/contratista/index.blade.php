@@ -1,4 +1,4 @@
-@vite(['resources/js/catalogo/contratista.js'])
+@vite(['resources/js/catalogo/contratista.js','resources/css/catalogo/contratista.css'])
 
 @extends('layout.plantilla_app')
 
@@ -53,7 +53,16 @@
                             @endrole
                             <a href="{{url('/contratistas/view/'.$dato->id)}}" class="btn-acciones"><i class="fa-regular fa-eye btn-ico-view"></i></a>
                         </td>
-                        <td>{{$dato->activo ? 'Si' : 'No'}}</td>
+                        <td>
+                            @role('admin')
+                            <form action="{{url('/contratistas/activo'.'/'.$dato->id)}}" method="post" class="form-activo">
+                                @csrf
+                                <button type="submit" class="btn-activo {{$dato->activo ? 'activo' : ''}}" name="activo" value="{{ $dato->activo }}">{{$dato->activo ? 'Si' : 'No'}}</button>
+                            </form>
+                            @elserole
+                            {{$dato->activo ? 'Si' : 'No'}}
+                            @endrole
+                        </td>
                         <td>{{$dato->nombre_empresa}}</td>
                         <td>{{$dato->tipos_cedulas->tipo_cedula}}</td>
                         <td>{{$dato->telefono_empresa}}</td>

@@ -75,10 +75,13 @@
                     </div>
 
                     <div class="detalle-setting">
-                        @role('admin')
-                        <a href="{{route('user')}}">Usuarios</a>
-                        {{-- <a href="#">Roles y Permisos</a> --}}
-                        @endrole
+                        <a href="{{route('user')}}">
+                            @role('admin')
+                                Usuarios
+                            @elserole('contratista')
+                                Usuario
+                            @endrole
+                        </a>
                         <a href="{{route('logout')}}">Cerrar sesión</a>
                     </div>
                 </div>

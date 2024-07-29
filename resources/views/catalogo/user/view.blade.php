@@ -4,9 +4,15 @@
 
 @section('informacion')
     <div class="encabezado-tabla">
-        <p class="titulo">Tipos de equipo</p>
+        <p class="titulo">
+            @role('admin')
+                Usuarios
+            @elserole('contratista')
+                Usuario
+            @endrole
+        </p>
         
-        <a href="{{url('/tipos_equipos')}}" class="btn-cambio-vista btn">
+        <a href="{{url('/user')}}" class="btn-cambio-vista btn">
             <i class="fa-solid fa-eye"></i>
             Ver Lista
         </a>
@@ -16,8 +22,12 @@
         <div class="marco detalle-registro">
             <div class="contenedor-detalle-registro">
                 <div class="detalle">
-                    <p class="clave">Tipo de equipo:</p>
-                    <p class="valor">{{$dato->tipo_equipo}}</p>
+                    <p class="clave">Nombre:</p>
+                    <p class="valor">{{$dato->name}}</p>
+                </div>
+                <div class="detalle">
+                    <p class="clave">Email:</p>
+                    <p class="valor">{{$dato->email}}</p>
                 </div>
             </div>
         </div>

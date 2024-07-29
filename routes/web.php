@@ -12,7 +12,10 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     // Home
     Route::get('/', [CatalogoController::class, 'contratista_index']);
-    
+
+    // Rol
+    Route::post('/rol/{user}', [CatalogoController::class, 'user_rol_create']);
+
     // Usuario
     Route::get('/user', [CatalogoController::class, 'user_index'])->name('user');
     Route::get('/user/create', [CatalogoController::class, 'user_create']);
@@ -21,7 +24,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/user', [CatalogoController::class, 'user_store']);
     Route::patch('/user/{id}', [CatalogoController::class, 'user_update']);
 
-    
     // Contratista
     Route::get('/contratistas', [CatalogoController::class, 'contratista_index']);
     Route::get('/contratistas/create', [CatalogoController::class, 'contratista_create']);
@@ -29,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/contratistas/edit/{id}', [CatalogoController::class, 'contratista_edit']);
     Route::post('/contratistas', [CatalogoController::class, 'contratista_store']);
     Route::patch('/contratistas/{id}', [CatalogoController::class, 'contratista_update']);
+    Route::post('/contratistas/activo/{id}', [CatalogoController::class, 'contratista_activo_update']);
     
     // Empleado
     Route::get('/contratistas/empleados/{contratista}', [CatalogoController::class, 'empleados_index']);

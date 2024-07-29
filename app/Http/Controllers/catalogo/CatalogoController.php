@@ -14,23 +14,92 @@ use App\Models\Tipo_cedula;
 use App\Models\Tipo_documento;
 use App\Models\Tipo_equipo;
 use App\Models\Vehiculo;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 
 class CatalogoController extends Controller
-{
+{    
+    /////// Rol
+    public function user_rol_create(Request $request, $user) {
+        $usuario = User::find($user);
+        // Borrar todos los roles del usuario
+        $usuario->syncRoles([]);
+        // Asignarle el rol al usuario
+        $usuario->assignRole($request['rol']);
+
+        return redirect()->back()->with(['mensaje' => 'Rol Actualizado']);
+    }
+
     /////// Usuarios
     public function user_index() {
+        $roles = Role::all();
+        
         $datos = [];
         $user = User::find(auth()->user()->id);
         $user_rol = $user->getRoleNames();
         if ($user_rol[0] == 'admin') {
-            $datos = User::all();
+            $datos = User::where('id', '!=', 1)->get();
         }else{
             $datos = [$user];
         }
-        return view('catalogo.user.index', compact('datos'));
+        return view('catalogo.user.index', compact('datos','roles'));
     }
-    
+
+    public function user_create() {
+        return view('catalogo.user.create');
+    }
+
+    public function user_view($id) {
+        $dato = User::find($id);
+        return view('catalogo.user.view', compact('dato'));
+    }
+
+    public function user_edit($id) {
+        $dato = User::find($id);
+        return view('catalogo.user.edit', compact('dato'));
+    }
+
+    public function user_store(Request $request) {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required|min:8',
+        ],[
+            'password.min' => 'Minimo 8 carácteres'
+        ]);
+
+        $user = User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password'])
+        ]);
+
+        $user->assignRole('contratista');
+
+        return redirect('/user')->with(['mensaje' => 'Información Creada']);
+    }
+
+    public function user_update(Request $request, $id) {
+        $usuario = User::find($id);
+
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'min:8',
+        ],[
+            'password.min' => 'Minimo 8 carácteres'
+        ]);
+
+        $usuario->update([
+            'name' => $request['name'] ? $request['name'] : $usuario['name'],
+            'email' => $request['email'] ? $request['email'] : $usuario['email'],
+            'password' => $request['password'] ? Hash::make($request['password']) : $usuario['password']
+        ]);
+
+        return redirect('/user')->with(['mensaje' => 'Información Actualizada']);
+    }
+
     /////// Contratista
     public function contratista_index() {
         $datos = [];
@@ -172,6 +241,14 @@ class CatalogoController extends Controller
         ]);
 
         return redirect('/contratistas')->with(['mensaje' => 'Información Actualizada']);
+    }
+    
+    public function contratista_activo_update(Request $request, $id) {
+        $contratista = Contratista::find($id);
+
+        $contratista->update(['activo' => $request['activo'] ? 0 : 1]);
+        
+        return redirect()->back()->with(['mensaje' => 'Usuario Actualizada']);
     }
     
     /////// Empleado

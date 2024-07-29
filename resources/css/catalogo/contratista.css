@@ -1,0 +1,23 @@
+.form-activo{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    .btn-activo{
+        flex: 0 0 calc(50% - 1rem);
+        cursor: pointer;
+        color: white;
+        font-weight: bold;
+        border: .1rem solid white;
+        padding: .5rem;
+        background-color: transparent;
+        &.activo{
+            background-color: #0D2929;
+        }
+        &:hover{
+            background-color: white;
+            color: #783737;
+        }
+    }
+}

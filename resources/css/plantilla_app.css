@@ -294,6 +294,22 @@
                                     box-shadow: 0 0 1rem red;
                                 }
                             }
+                            .input-img{
+                                background-color: red;
+                                position: relative;
+                                display: flex;
+                                align-items: center;
+                                input{
+                                    width: 100%;
+                                    padding-right: 4rem;
+                                }
+                                i{
+                                    position: absolute;
+                                    right: 1rem;
+                                    font-size: 2rem;
+                                    cursor: pointer;
+                                }
+                            }
                         }
                     }
 

@@ -4,21 +4,38 @@
 
 @section('informacion')
     <div class="encabezado-tabla">
-        <p class="titulo">Tipos de equipo</p>
+        <p class="titulo">
+            @role('admin')
+                Usuarios
+            @elserole('contratista')
+                Usuario
+            @endrole
+        </p>
 
-        <a href="{{url('/tipos_equipos')}}" class="btn-cambio-vista btn">
+        <a href="{{url('/user')}}" class="btn-cambio-vista btn">
             <i class="fa-solid fa-eye"></i>
             Ver Lista
         </a>
     </div>
 
     <div class="datos-mostrar">
-        <form class="marco" action="{{url('/tipos_equipos')}}"  method="post" enctype="multipart/form-data">
+        <form class="marco" action="{{url('/user')}}"  method="post" enctype="multipart/form-data">
             @csrf
             <div class="contenedor-inputs">
                 <div class="inputs">
-                    <label for="tipo_equipo" class="encabezado-input">Tipo de equipo</label>
-                    <input type="text" class="input @error('tipo_equipo') error @enderror" name="tipo_equipo" id="tipo_equipo" value="{{old('tipo_equipo')}}">
+                    <label for="name" class="encabezado-input">Nombre</label>
+                    <input type="text" class="input @error('name') error @enderror" name="name" id="name" value="{{old('name')}}">
+                </div>
+                <div class="inputs">
+                    <label for="email" class="encabezado-input">Email</label>
+                    <input type="email" class="input @error('email') error @enderror" name="email" id="email" value="{{old('email')}}">
+                </div>
+                <div class="inputs">
+                    <label for="password" class="encabezado-input">Password</label>
+                    <div class="input-img">
+                        <input type="password" class="input @error('password') error @enderror" name="password" id="password" value="" autocomplete>
+                        <i class="fa-regular fa-eye-slash icon-cambiar"></i>
+                    </div>
                 </div>
             </div>
 
