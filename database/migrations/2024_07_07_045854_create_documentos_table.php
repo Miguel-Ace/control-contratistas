@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('id_contratista')->unsigned();
             $table->bigInteger('id_empleado')->unsigned();
             $table->bigInteger('id_vehiculo')->unsigned();
+            $table->bigInteger('id_tipo_documentos')->unsigned();
             $table->string('fecha_vencimiento');
             $table->text('observacion')->nullable();
             $table->string('attach');
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->foreign('id_contratista')->references('id')->on('contratistas');
             $table->foreign('id_empleado')->references('id')->on('empleados');
             $table->foreign('id_vehiculo')->references('id')->on('vehiculos');
+            $table->foreign('id_tipo_documentos')->references('id')->on('tipo_documentos');
         });
     }
 

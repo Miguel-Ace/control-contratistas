@@ -143,33 +143,28 @@ class CatalogoController extends Controller
 
     public function contratista_store(Request $request) {
         $request->validate([
-            'nombre_empresa' => 'required|string|max:255',
+            'nombre_empresa' => 'required|string',
             'id_tipo_cedula' => 'required|integer|exists:tipo_cedulas,id',
             'telefono_empresa' => 'required|string|max:15',
             'cedula_empresa' => 'required|string|max:20',
-            'direccion_empresa' => 'required|string|max:255',
-            'barrio' => 'required|string|max:255',
+            'direccion_empresa' => 'required|string',
+            'barrio' => 'required|string',
             'id_canton' => 'required|integer|exists:cantones,id',
-            'web' => 'required|url|max:255',
-            'nombre_contratista' => 'required|string|max:255',
+            'web' => 'required|url',
+            'nombre_contratista' => 'required|string',
             'cedula_contratista' => 'required|string|max:20',
             'telefono_contratista' => 'required|string|max:15',
-            'correo_contratista' => 'required|email|max:255',
+            'correo_contratista' => 'required|email',
             'documento_ins' => 'required|file',
-            'documento_ccss' => 'required|file|max:255',
+            'documento_ccss' => 'required|file',
             'fecha_ini' => 'required|date',
             'fecha_fin' => 'required|date|after_or_equal:fecha_ini',
         ]);
 
-        if ($request->file('documento_ins') && $request->file('documento_ccss')) {
-            $datos['documento_ins'] = $request->file('documento_ins')->storeAs('documentos_contratistas', $request->file('documento_ins')->getClientOriginalName(), 'public');
-            $datos['documento_ccss'] = $request->file('documento_ccss')->storeAs('documentos_contratistas', $request->file('documento_ccss')->getClientOriginalName(), 'public');
-        }
-        
         $canton = Canton::find($request['id_canton'])->load('provincias');
         $provincia = $canton->provincias->id;
 
-        Contratista::create([
+        $contratista = Contratista::create([
             'nombre_empresa' => $request['nombre_empresa'],
             'id_tipo_cedula' => $request['id_tipo_cedula'],
             'id_user' => auth()->user()->id,
@@ -191,6 +186,11 @@ class CatalogoController extends Controller
             'activo' => 0,
         ]);
 
+        if ($request->file('documento_ins') && $request->file('documento_ccss')) {
+            $request->file('documento_ins')->storeAs('documentos_contratistas/'.$contratista->id, $request->file('documento_ins')->getClientOriginalName(), 'public');
+            $request->file('documento_ccss')->storeAs('documentos_contratistas/'.$contratista->id, $request->file('documento_ccss')->getClientOriginalName(), 'public');
+        }
+        
         return redirect('/contratistas')->with(['mensaje' => 'Información Creada']);
     }
 
@@ -200,23 +200,32 @@ class CatalogoController extends Controller
         $provincia = $canton->provincias->id;
 
         // Declarando ruta del archivo ins a eliminar
-        $doc_ins = 'public/documentos_contratistas/'.$contratista->documento_ins;
-        // Verificar si el existe archivo anterior y comprobar si el usuario pasó documento nuevo
-        if (Storage::exists($doc_ins) && $request->file('documento_ins')) {
-            // Eliminar el archivo
+        $doc_ins = 'public/documentos_contratistas/'.$id.'/'.$contratista->documento_ins;
+        // Verificar si el archivo existe y si el usuario ha subido un documento nuevo
+        if (Storage::exists($doc_ins) && $request->hasFile('documento_ins')) {
+            // Eliminar el archivo antiguo
             Storage::delete($doc_ins);
-            // Creando el nuevo archivo
-            $request->file('documento_ins')->storeAs('documentos_contratistas', $request->file('documento_ins')->getClientOriginalName(), 'public');
         }
 
+        // Crear el nuevo archivo solo si el usuario ha subido un archivo
+        if ($request->hasFile('documento_ins')) {
+            // Subir el nuevo archivo
+            $request->file('documento_ins')->storeAs('documentos_contratistas/'.$id, $request->file('documento_ins')->getClientOriginalName(), 'public');
+        }
+
+        
         // Declarando ruta del archivo ccss a eliminar
-        $doc_ccss = 'public/documentos_contratistas/'.$contratista->documento_ccss;
-        // Verificar si el existe archivo anterior y comprobar si el usuario pasó documento nuevo
-        if (Storage::exists($doc_ccss) && $request->file('documento_ccss')) {
-            // Eliminar el archivo
+        $doc_ccss = 'public/documentos_contratistas/'.$id.'/'.$contratista->documento_ccss;
+        // Verificar si el archivo existe y si el usuario ha subido un documento nuevo
+        if (Storage::exists($doc_ccss) && $request->hasFile('documento_ccss')) {
+            // Eliminar el archivo antiguo
             Storage::delete($doc_ccss);
-            // Creando el nuevo archivo
-            $request->file('documento_ccss')->storeAs('documentos_contratistas', $request->file('documento_ccss')->getClientOriginalName(), 'public');
+        }
+
+        // Crear el nuevo archivo solo si el usuario ha subido un archivo
+        if ($request->hasFile('documento_ccss')) {
+            // Subir el nuevo archivo
+            $request->file('documento_ccss')->storeAs('documentos_contratistas/'.$id, $request->file('documento_ccss')->getClientOriginalName(), 'public');
         }
 
         $contratista->update([
@@ -279,13 +288,13 @@ class CatalogoController extends Controller
 
     public function empleado_store(Request $request, $contratista) {
         $request->validate([
-            'nombres' => 'required|string|max:255',
-            'apellidos' => 'required|string|max:255',
+            'nombres' => 'required|string',
+            'apellidos' => 'required|string',
             'cedula' => 'required|string|max:20',
             'id_tipo_cedula' => 'required|integer|exists:tipo_cedulas,id',
             'telefono' => 'required|string|max:15',
-            'email' => 'required|email|max:255',
-            'direccion' => 'required|string|max:255',
+            'email' => 'required|email',
+            'direccion' => 'required|string',
             'num_seguro' => 'required|string|max:20',
         ]);
 
@@ -349,8 +358,8 @@ class CatalogoController extends Controller
 
     public function vehiculo_store(Request $request, $contratista) {
         $request->validate([
-            'marca' => 'required|string|max:255',
-            'modelo' => 'required|string|max:255',
+            'marca' => 'required|string',
+            'modelo' => 'required|string',
             'color' => 'required|string|max:50',
             'placa' => 'required|string|max:10',
         ]);
@@ -391,7 +400,8 @@ class CatalogoController extends Controller
         $nombre_contratista = Contratista::find($contratista)->pluck('nombre_contratista')[0];
         $empleados = Empleado::where('id_contratista',$contratista)->get();
         $vehiculos = Vehiculo::where('id_contratista',$contratista)->get();
-        return view('catalogo.documento.create', compact('contratista','nombre_contratista','empleados','vehiculos'));
+        $tipos_documentos = Tipo_documento::all();
+        return view('catalogo.documento.create', compact('contratista','nombre_contratista','empleados','vehiculos','tipos_documentos'));
     }
 
     public function documento_view($id) {
@@ -405,30 +415,33 @@ class CatalogoController extends Controller
         $nombre_contratista = Contratista::find($dato->id_contratista)->pluck('nombre_contratista')[0];
         $empleados = Empleado::where('id_contratista',$dato->id_contratista)->get();
         $vehiculos = Vehiculo::where('id_contratista',$dato->id_contratista)->get();
-        return view('catalogo.documento.edit', compact('dato','nombre_contratista','empleados','vehiculos'));
+        $tipos_documentos = Tipo_documento::all();
+        return view('catalogo.documento.edit', compact('dato','nombre_contratista','empleados','vehiculos','tipos_documentos'));
     }
 
     public function documento_store(Request $request, $contratista) {
         $request->validate([
             'id_empleado' => 'required|integer|exists:empleados,id',
             'id_vehiculo' => 'required|integer|exists:vehiculos,id',
+            'id_tipo_documentos' => 'required|integer',
             'fecha_vencimiento' => 'required|date|after_or_equal:today',
             'observacion' => 'nullable|string|max:500',
-            'attach' => 'required|file|max:255',
+            'attach' => 'required|file',
         ]);
 
-        if ($request->file('attach')) {
-            $request->file('attach')->storeAs('documentos', $request->file('attach')->getClientOriginalName(), 'public');
-        }
-
-        Documento::create([
+        $documento = Documento::create([
             'id_contratista' => $contratista,
             'id_empleado' => $request['id_empleado'],
             'id_vehiculo' => $request['id_vehiculo'],
+            'id_tipo_documentos' => $request['id_tipo_documentos'],
             'fecha_vencimiento' => $request['fecha_vencimiento'],
             'observacion' => $request['observacion'],
             'attach' => $request->file('attach')->getClientOriginalName()
         ]);
+
+        if ($request->file('attach')) {
+            $request->file('attach')->storeAs('documentos/'.$documento->id, $request->file('attach')->getClientOriginalName(), 'public');
+        }
 
         return redirect('/contratistas/documento/'.$contratista)->with(['mensaje' => 'Información Creada']);
     }
@@ -437,19 +450,24 @@ class CatalogoController extends Controller
         $documento = Documento::find($id);
 
         // Declarando ruta del archivo a eliminar
-        $archivo = 'public/documentos/'.$documento->attach;
-        // Verificar si el existe archivo anterior y comprobar si el usuario pasó documento nuevo
-        if (Storage::exists($archivo) && $request->file('attach')) {
-            // Eliminar el archivo
+        $archivo = 'public/documentos/'.$id.'/'.$documento->attach;
+        // Verificar si el archivo existe y si el usuario ha subido un documento nuevo
+        if (Storage::exists($archivo) && $request->hasFile('attach')) {
+            // Eliminar el archivo antiguo
             Storage::delete($archivo);
-            // Creando el nuevo archivo
-            $request->file('attach')->storeAs('documentos', $request->file('attach')->getClientOriginalName(), 'public');
+        }
+
+        // Crear el nuevo archivo solo si el usuario ha subido un archivo
+        if ($request->hasFile('attach')) {
+            // Subir el nuevo archivo
+            $request->file('attach')->storeAs('documentos/'.$id, $request->file('attach')->getClientOriginalName(), 'public');
         }
 
         $documento->update([
             'id_contratista' => $documento['id_contratista'],
             'id_empleado' => $request['id_empleado'] ? $request['id_empleado'] : $documento['id_empleado'],
             'id_vehiculo' => $request['id_vehiculo'] ? $request['id_vehiculo'] : $documento['id_vehiculo'],
+            'id_tipo_documentos' => $request['id_tipo_documentos'] ? $request['id_tipo_documentos'] : $documento['id_tipo_documentos'],
             'fecha_vencimiento' => $request['fecha_vencimiento'] ? $request['fecha_vencimiento'] : $documento['fecha_vencimiento'],
             'observacion' => $request['observacion'] ? $request['observacion'] : $documento['observacion'],
             'attach' => $request['attach'] ? $request->file('attach')->getClientOriginalName() : $documento['attach']
@@ -487,8 +505,8 @@ class CatalogoController extends Controller
     public function equipo_store(Request $request, $contratista) {
         $request->validate([
             'id_tipo_equipo' => 'required|integer|exists:tipo_equipos,id',
-            'equipo' => 'required|string|max:255',
-            'numero_serie' => 'required|string|max:255',
+            'equipo' => 'required|string',
+            'numero_serie' => 'required|string',
         ]);
 
         Equipo::create([
@@ -536,7 +554,7 @@ class CatalogoController extends Controller
 
     public function tipo_cedula_store(Request $request) {
         $request->validate([
-            'tipo_cedula' => 'required|string|max:255',
+            'tipo_cedula' => 'required|string',
         ]);
 
         Tipo_cedula::create([
@@ -578,7 +596,7 @@ class CatalogoController extends Controller
 
     public function tipo_documento_store(Request $request) {
         $request->validate([
-            'tipo_documento' => 'required|string|max:255',
+            'tipo_documento' => 'required|string',
         ]);
 
         Tipo_documento::create([
@@ -620,7 +638,7 @@ class CatalogoController extends Controller
 
     public function tipo_equipo_store(Request $request) {
         $request->validate([
-            'tipo_equipo' => 'required|string|max:255',
+            'tipo_equipo' => 'required|string',
         ]);
 
         Tipo_equipo::create([

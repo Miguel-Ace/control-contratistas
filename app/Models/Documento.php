@@ -17,6 +17,7 @@ class Documento extends Model
         'id_contratista',
         'id_empleado',
         'id_vehiculo',
+        'id_tipo_documentos',
         'fecha_vencimiento',
         'observacion',
         'attach',
@@ -32,5 +33,9 @@ class Documento extends Model
 
     function vehiculos(){
         return $this->belongsTo(Vehiculo::class,'id_vehiculo');
+    }
+
+    function tipos_documentos(){
+        return $this->belongsTo(Tipo_documento::class,'id_tipo_documentos');
     }
 }

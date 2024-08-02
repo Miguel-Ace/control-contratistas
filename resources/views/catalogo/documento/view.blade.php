@@ -36,12 +36,21 @@
                 </div>
                 
                 <div class="detalle">
+                    <p class="clave">Tipo de documento:</p>
+                    <p class="valor">{{$dato->tipos_documentos->tipo_documento}}</p>
+                </div>
+                
+                <div class="detalle">
                     <p class="clave">Attach:</p>
                     <p class="valor">
-                        <a href="{{asset('storage').'/documentos'.'/'.$dato->attach}}" class="document">
-                            <ion-icon name="document-text-outline"></ion-icon>
-                            {{$dato->attach}}
-                        </a>
+                        @if (Storage::disk('public')->exists('/documentos'.'/'.$dato->id.'/'.$dato->attach))
+                            <a href="{{asset('storage').'/documentos'.'/'.$dato->id.'/'.$dato->attach}}" class="document">
+                                <ion-icon name="document-text-outline"></ion-icon>
+                                {{$dato->attach}}
+                            </a>
+                        @else
+                            No existe documento
+                        @endif
                     </p>
                 </div>
             </div>

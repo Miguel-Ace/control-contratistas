@@ -7,7 +7,7 @@
         <p class="titulo">
             @role('admin')
                 Usuarios
-            @elserole('contratista')
+            @else('contratista')
                 Usuario
             @endrole
         </p>

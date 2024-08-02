@@ -84,20 +84,28 @@
                 <div class="detalle">
                     <p class="clave">Documento INS:</p>
                     <p class="valor">
-                        <a href="{{asset('storage').'/documentos_contratistas'.'/'.$dato->documento_ins}}" class="document">
-                            <ion-icon name="document-text-outline"></ion-icon>
-                            {{$dato->documento_ins}}
-                        </a>
+                        @if (Storage::disk('public')->exists('/documentos_contratistas'.'/'.$dato->id.'/'.$dato->documento_ins))
+                            <a href="{{asset('storage').'/documentos_contratistas'.'/'.$dato->id.'/'.$dato->documento_ins}}" class="document">
+                                <ion-icon name="document-text-outline"></ion-icon>
+                                {{$dato->documento_ins}}
+                            </a>
+                        @else
+                            No existe documento
+                        @endif
                     </p>
                 </div>
                 
                 <div class="detalle">
                     <p class="clave">Documento CCSS:</p>
                     <p class="valor">
-                        <a href="{{asset('storage').'/documentos_contratistas'.'/'.$dato->documento_ccss}}" class="document">
-                            <ion-icon name="document-text-outline"></ion-icon>
-                            {{$dato->documento_ins}}
-                        </a>
+                        @if (Storage::disk('public')->exists('/documentos_contratistas'.'/'.$dato->id.'/'.$dato->documento_ccss))
+                            <a href="{{asset('storage').'/documentos_contratistas'.'/'.$dato->id.'/'.$dato->documento_ccss}}" class="document">
+                                <ion-icon name="document-text-outline"></ion-icon>
+                                {{$dato->documento_ccss}}
+                            </a>
+                        @else
+                            No existe documento
+                        @endif
                     </p>
                 </div>
                 

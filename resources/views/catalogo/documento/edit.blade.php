@@ -46,6 +46,15 @@
                 </div>
                 
                 <div class="inputs">
+                    <label for="id_tipo_documentos" class="encabezado-input">Tipo de documento</label>
+                    <select class="input" name="id_tipo_documentos" id="id_tipo_documentos">
+                        @foreach ($tipos_documentos as $tipo_documento)
+                            <option value="{{$tipo_documento->id}}" {{ $dato->id_tipo_documentos == $tipo_documento->id ? 'selected' : '' }}>{{$tipo_documento->tipo_documento}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="inputs">
                     <label for="attach" class="encabezado-input">Adjunto</label>
                     <input type="file" class="input" name="attach" id="attach">
                 </div>

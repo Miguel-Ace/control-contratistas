@@ -45,6 +45,15 @@
                 </div>
                 
                 <div class="inputs">
+                    <label for="id_tipo_documentos" class="encabezado-input">Tipo de documento</label>
+                    <select class="input @error('id_vehiculo') error @enderror" name="id_tipo_documentos" id="id_tipo_documentos">
+                        @foreach ($tipos_documentos as $tipo_documento)
+                            <option value="{{$tipo_documento->id}}" {{ old('id_tipo_documentos') == $tipo_documento->id ? 'selected' : '' }}>{{$tipo_documento->tipo_documento}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="inputs">
                     <label for="attach" class="encabezado-input">Adjunto</label>
                     <input type="file" class="input @error('attach') error @enderror" name="attach" id="attach">
                 </div>

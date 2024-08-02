@@ -21,6 +21,7 @@
                     <td>Vehiculo</td>
                     <td>Fecha de vencimiento</td>
                     <td>Observación</td>
+                    <td>Tipo de documento</td>
                     <td>Attach</td>
                 </tr>
             </thead>
@@ -37,10 +38,15 @@
                         <td>{{$dato->vehiculos->marca}} {{$dato->vehiculos->modelo}} {{$dato->vehiculos->color}}</td>
                         <td>{{$dato->fecha_vencimiento}}</td>
                         <td>{{$dato->observacion ? $dato->observacion : '-'}}</td>
+                        <td>{{$dato->tipos_documentos->tipo_documento}}</td>
                         <td>
-                            <a href="{{asset('storage').'/documentos'.'/'.$dato->attach}}" class="document">
-                                <ion-icon name="document-text-outline"></ion-icon>
-                            </a>
+                            @if (Storage::disk('public')->exists('/documentos'.'/'.$dato->id.'/'.$dato->attach))
+                                <a href="{{asset('storage').'/documentos'.'/'.$dato->id.'/'.$dato->attach}}" class="document">
+                                    <ion-icon name="document-text-outline"></ion-icon>
+                                </a>
+                            @else
+                                No existe documento
+                            @endif
                         </td>
                     </tr>
                 @endforeach

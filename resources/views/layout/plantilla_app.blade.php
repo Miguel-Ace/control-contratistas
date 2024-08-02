@@ -78,7 +78,7 @@
                         <a href="{{route('user')}}">
                             @role('admin')
                                 Usuarios
-                            @elserole('contratista')
+                            @else('contratista')
                                 Usuario
                             @endrole
                         </a>

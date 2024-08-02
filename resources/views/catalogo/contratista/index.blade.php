@@ -59,7 +59,7 @@
                                 @csrf
                                 <button type="submit" class="btn-activo {{$dato->activo ? 'activo' : ''}}" name="activo" value="{{ $dato->activo }}">{{$dato->activo ? 'Si' : 'No'}}</button>
                             </form>
-                            @elserole
+                            @else
                             {{$dato->activo ? 'Si' : 'No'}}
                             @endrole
                         </td>
@@ -77,14 +77,22 @@
                         <td>{{$dato->correo_contratista}}</td>
                         {{-- <td>{{$dato->documento_ins}}</td> --}}
                         <td>
-                            <a href="{{asset('storage').'/documentos_contratistas'.'/'.$dato->documento_ins}}" class="document">
-                                <ion-icon name="document-text-outline"></ion-icon>
-                            </a>
+                            @if (Storage::disk('public')->exists('/documentos_contratistas'.'/'.$dato->id.'/'.$dato->documento_ins))
+                                <a href="{{asset('storage').'/documentos_contratistas'.'/'.$dato->id.'/'.$dato->documento_ins}}" class="document">
+                                    <ion-icon name="document-text-outline"></ion-icon>
+                                </a>
+                            @else
+                                No existe documento
+                            @endif
                         </td>
                         <td>
-                            <a href="{{asset('storage').'/documentos_contratistas'.'/'.$dato->documento_ccss}}" class="document">
-                                <ion-icon name="document-text-outline"></ion-icon>
-                            </a>
+                            @if (Storage::disk('public')->exists('/documentos_contratistas'.'/'.$dato->id.'/'.$dato->documento_ccss))
+                                <a href="{{asset('storage').'/documentos_contratistas'.'/'.$dato->id.'/'.$dato->documento_ccss}}" class="document">
+                                    <ion-icon name="document-text-outline"></ion-icon>
+                                </a>
+                            @else
+                                No existe documento
+                            @endif
                         </td>
                         <td>{{$dato->fecha_ini}}</td>
                         <td>{{$dato->fecha_fin}}</td>
