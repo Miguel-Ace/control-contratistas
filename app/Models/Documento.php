@@ -20,6 +20,7 @@ class Documento extends Model
         'id_tipo_documentos',
         'fecha_vencimiento',
         'observacion',
+        'num_documento',
         'attach',
     ];
 

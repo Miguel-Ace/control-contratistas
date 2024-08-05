@@ -54,6 +54,11 @@
                 </div>
 
                 <div class="inputs">
+                    <label for="num_documento" class="encabezado-input">Número de documento</label>
+                    <input type="text" class="input @error('num_documento') error @enderror" name="num_documento" id="num_documento">
+                </div>
+
+                <div class="inputs">
                     <label for="attach" class="encabezado-input">Adjunto</label>
                     <input type="file" class="input @error('attach') error @enderror" name="attach" id="attach">
                 </div>

@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/user/{id}', [CatalogoController::class, 'user_update']);
 
     // Contratista
+    Route::get('/buscador', [CatalogoController::class, 'contratista_buscador_index']);
     Route::get('/contratistas', [CatalogoController::class, 'contratista_index']);
     Route::get('/contratistas/create', [CatalogoController::class, 'contratista_create']);
     Route::get('/contratistas/view/{id}', [CatalogoController::class, 'contratista_view']);

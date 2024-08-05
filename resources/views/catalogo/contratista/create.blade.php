@@ -54,7 +54,7 @@
                 </div>
                 <div class="inputs">
                     <label for="web" class="encabezado-input">Sitio Web</label>
-                    <input type="url" class="input @error('web') error @enderror" name="web" id="web" value="{{old('web')}}">
+                    <input type="text" class="input @error('web') error @enderror" name="web" id="web" value="{{old('web')}}">
                 </div>
                 <div class="inputs">
                     <label for="nombre_contratista" class="encabezado-input">Nombre del Contratista</label>

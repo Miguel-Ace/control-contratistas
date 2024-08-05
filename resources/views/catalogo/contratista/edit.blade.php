@@ -55,7 +55,7 @@
             </div>
             <div class="inputs">
                 <label for="web" class="encabezado-input">Sitio Web</label>
-                <input type="url" class="input" name="web" id="web" value="{{$dato->web}}">
+                <input type="text" class="input" name="web" id="web" value="{{$dato->web}}">
             </div>
             <div class="inputs">
                 <label for="nombre_contratista" class="encabezado-input">Nombre del Contratista</label>

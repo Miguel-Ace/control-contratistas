@@ -101,6 +101,33 @@ class CatalogoController extends Controller
     }
 
     /////// Contratista
+    public function contratista_buscador_index(Request $request) {
+        $pasar = false;
+        $buscar = $request->buscar;
+
+        $datos = Contratista::with(['tipos_cedulas', 'cantones', 'provincias'])
+        ->where('nombre_empresa', 'LIKE', "%{$buscar}%")
+        ->orWhereHas('tipos_cedulas', function ($query) use ($buscar) {
+            $query->where('tipo_cedula', 'LIKE', "%{$buscar}%");
+        })
+        ->orWhere('telefono_empresa', 'LIKE', "%{$buscar}%")
+        ->orWhere('cedula_empresa', 'LIKE', "%{$buscar}%")
+        ->orWhere('direccion_empresa', 'LIKE', "%{$buscar}%")
+        ->orWhere('barrio', 'LIKE', "%{$buscar}%")
+        ->orWhereHas('cantones', function ($query) use ($buscar) {
+            $query->where('canton', 'LIKE', "%{$buscar}%");
+        })
+        ->orWhere('web', 'LIKE', "%{$buscar}%")
+        ->orWhere('nombre_contratista', 'LIKE', "%{$buscar}%")
+        ->orWhere('cedula_contratista', 'LIKE', "%{$buscar}%")
+        ->orWhere('telefono_contratista', 'LIKE', "%{$buscar}%")
+        ->orWhere('correo_contratista', 'LIKE', "%{$buscar}%")
+        ->orWhere('fecha_ini', 'LIKE', "%{$buscar}%")
+        ->orWhere('fecha_fin', 'LIKE', "%{$buscar}%")
+        ->get();
+        return view('catalogo.contratista.index', compact('datos','pasar'));
+    }
+
     public function contratista_index() {
         $datos = [];
         $user = User::find(auth()->user()->id);
@@ -150,7 +177,7 @@ class CatalogoController extends Controller
             'direccion_empresa' => 'required|string',
             'barrio' => 'required|string',
             'id_canton' => 'required|integer|exists:cantones,id',
-            'web' => 'required|url',
+            'web' => 'required',
             'nombre_contratista' => 'required|string',
             'cedula_contratista' => 'required|string|max:20',
             'telefono_contratista' => 'required|string|max:15',
@@ -426,6 +453,7 @@ class CatalogoController extends Controller
             'id_tipo_documentos' => 'required|integer',
             'fecha_vencimiento' => 'required|date|after_or_equal:today',
             'observacion' => 'nullable|string|max:500',
+            'num_documento' => 'required',
             'attach' => 'required|file',
         ]);
 
@@ -436,6 +464,7 @@ class CatalogoController extends Controller
             'id_tipo_documentos' => $request['id_tipo_documentos'],
             'fecha_vencimiento' => $request['fecha_vencimiento'],
             'observacion' => $request['observacion'],
+            'num_documento' => $request['num_documento'],
             'attach' => $request->file('attach')->getClientOriginalName()
         ]);
 
@@ -470,6 +499,7 @@ class CatalogoController extends Controller
             'id_tipo_documentos' => $request['id_tipo_documentos'] ? $request['id_tipo_documentos'] : $documento['id_tipo_documentos'],
             'fecha_vencimiento' => $request['fecha_vencimiento'] ? $request['fecha_vencimiento'] : $documento['fecha_vencimiento'],
             'observacion' => $request['observacion'] ? $request['observacion'] : $documento['observacion'],
+            'observacion' => $request['num_documento'] ? $request['num_documento'] : $documento['num_documento'],
             'attach' => $request['attach'] ? $request->file('attach')->getClientOriginalName() : $documento['attach']
         ]);
 

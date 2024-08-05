@@ -1,6 +1,8 @@
 import { loading } from "./display_load"
 const toogle = document.querySelector('.toogle')
+const menu = document.querySelector('.menu')
 const contenedor = document.querySelector('.contenedor')
+const contenido_left = document.querySelector('.left')
 const icon_cabiar_catalogo = document.querySelector('.icon-cabiar-catalogo')
 const detalle_setting = document.querySelector('.detalle-setting')
 const catalogos = document.querySelectorAll('.catalogos a')
@@ -51,3 +53,13 @@ document.querySelector('.usuario').onclick = () => {
     detalle_setting.classList.toggle('activo')
     document.querySelector('.usuario ion-icon').classList.toggle('activo')
 }
+
+menu.onclick = () => {
+    if (contenedor.classList.contains('reducir-catalogo')) {
+        contenedor.classList.remove('reducir-catalogo')
+    }
+
+    contenido_left.classList.toggle('activo')
+    menu.classList.toggle('activo')
+}
+

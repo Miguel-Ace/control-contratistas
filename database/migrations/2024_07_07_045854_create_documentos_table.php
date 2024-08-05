@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('id_tipo_documentos')->unsigned();
             $table->string('fecha_vencimiento');
             $table->text('observacion')->nullable();
+            $table->text('num_documento');
             $table->string('attach');
             $table->timestamps();
 

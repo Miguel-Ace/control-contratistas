@@ -19,6 +19,18 @@
     <div class="datos-mostrar">
         <table class="marco">
             <thead>
+                @role('admin')
+                <tr class="buscador">
+                    <td>
+                        <form action="{{url('/buscador')}}" method="get">
+                            <input type="text" name="buscar" placeholder="Buscar...">
+                            <button type="submit" aria-label="Buscar">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                @endrole
                 <tr>
                     <td>-</td>
                     <td>Activo</td>

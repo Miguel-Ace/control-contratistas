@@ -39,6 +39,11 @@
                     <p class="clave">Tipo de documento:</p>
                     <p class="valor">{{$dato->tipos_documentos->tipo_documento}}</p>
                 </div>
+
+                <div class="detalle">
+                    <p class="clave">Número de documento:</p>
+                    <p class="valor">{{$dato->num_documento}}</p>
+                </div>
                 
                 <div class="detalle">
                     <p class="clave">Attach:</p>

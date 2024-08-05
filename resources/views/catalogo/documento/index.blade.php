@@ -22,6 +22,7 @@
                     <td>Fecha de vencimiento</td>
                     <td>Observación</td>
                     <td>Tipo de documento</td>
+                    <td>Número de documento</td>
                     <td>Attach</td>
                 </tr>
             </thead>
@@ -39,6 +40,7 @@
                         <td>{{$dato->fecha_vencimiento}}</td>
                         <td>{{$dato->observacion ? $dato->observacion : '-'}}</td>
                         <td>{{$dato->tipos_documentos->tipo_documento}}</td>
+                        <td>{{$dato->num_documento}}</td>
                         <td>
                             @if (Storage::disk('public')->exists('/documentos'.'/'.$dato->id.'/'.$dato->attach))
                                 <a href="{{asset('storage').'/documentos'.'/'.$dato->id.'/'.$dato->attach}}" class="document">

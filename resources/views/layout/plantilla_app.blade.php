@@ -64,6 +64,8 @@
 
         <div class="right">
             <div class="encabezado">
+                <div class="menu"></div>
+                
                 <div class="logo">
                     <img src="https://beesys.net/beesy2023/wp-content/uploads/2023/07/logo-beesys-2021-1.png" alt="">
                 </div>
