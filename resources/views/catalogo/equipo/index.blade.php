@@ -4,12 +4,14 @@
 
 @section('informacion')
     <div class="encabezado-tabla">
-        <p class="titulo">Contratista : {{$nombre_contratista}} / Equipo</p>
+        <p class="titulo"><a href="{{url('/contratistas')}}">Contratista</a> : {{$nombre_contratista}} / Equipo</p>
 
+        @role('contratista')
         <a href="{{url('/contratistas/equipo/create/'.$contratista)}}" class="btn-cambio-vista btn">
             <i class="fa-solid fa-plus"></i>
             Crear Nuevo
         </a>
+        @endrole
     </div>
 
     <div class="datos-mostrar">

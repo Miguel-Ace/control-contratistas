@@ -56,11 +56,11 @@
                 @foreach ($datos as $dato)
                     <tr>
                         <td>
-                            @role('contratista')
                             <a href="{{url('/contratistas/equipo/'.$dato->id)}}" class="btn-acciones"><i class="fa-solid fa-hammer btn-ico-change"></i></a>
                             <a href="{{url('/contratistas/documento/'.$dato->id)}}" class="btn-acciones"><i class="fa-solid fa-book btn-ico-change"></i></a>
                             <a href="{{url('/contratistas/vehiculo/'.$dato->id)}}" class="btn-acciones"><i class="fa-solid fa-car btn-ico-change"></i></a>
                             <a href="{{url('/contratistas/empleados/'.$dato->id)}}" class="btn-acciones"><i class="fa-solid fa-user btn-ico-change"></i></a>
+                            @role('contratista')
                             <a href="{{url('/contratistas/edit/'.$dato->id)}}" class="btn-acciones"><i class="fa-solid fa-pen-to-square btn-ico-editar"></i></a>
                             @endrole
                             <a href="{{url('/contratistas/view/'.$dato->id)}}" class="btn-acciones"><i class="fa-regular fa-eye btn-ico-view"></i></a>
