@@ -22,12 +22,11 @@ Route::delete('/users/delete/{id}', [ApiController::class, 'delete_user']);
 
 
 // // // //
-Route::get('/contratistas', [ApiController::class, 'all_contratistas']);
-Route::get('/contratistas/{id}', [ApiController::class, 'get_contratistas_id']);
-Route::get('/vehiculos', [ApiController::class, 'all_vehiculos']);
-Route::get('/vehiculos_x_contratista/{id}', [ApiController::class, 'vehiculos_x_contratista']);
-Route::get('/documentos', [ApiController::class, 'all_documentos']);
-Route::get('/documentos_x_contratista/{id}', [ApiController::class, 'documentos_x_contratista']);
-
-// Route::middleware(['auth:sanctum'])->group(function () {
-// });
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/contratistas', [ApiController::class, 'all_contratistas']);
+    Route::get('/contratistas/{id}', [ApiController::class, 'get_contratistas_id']);
+    Route::get('/vehiculos', [ApiController::class, 'all_vehiculos']);
+    Route::get('/vehiculos_x_contratista/{id}', [ApiController::class, 'vehiculos_x_contratista']);
+    Route::get('/documentos', [ApiController::class, 'all_documentos']);
+    Route::get('/documentos_x_contratista/{id}', [ApiController::class, 'documentos_x_contratista']);
+});

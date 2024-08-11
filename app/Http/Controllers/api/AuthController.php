@@ -22,7 +22,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         // if ($request->email == "acevedo51198mac@gmail.com") {
-        if ($request->email == "acevedo51198mac@gmail.com") {
+        if ($request->email == "admin@gmail.com") {
             return response()->json([
                 'access_token' => $token,
                 'token_type' => 'Bearer',
